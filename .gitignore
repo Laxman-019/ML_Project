@@ -220,3 +220,5 @@ __marimo__/
 
 catboost_info/
 *.tfevents*
+
+artifacts/
