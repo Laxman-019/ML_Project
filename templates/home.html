@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Predict Maths Score</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="card">
+        <div class="badge">🎓</div>
+        <h1>Exam Performance Predictor</h1>
+        <p class="subtitle">Fill in the details below to estimate the maths score.</p>
+
+        <form action="{{ url_for('predict_datapoint') }}" method="post" id="predictForm">
+
+            <div class="section-title">Student profile</div>
+
+            <div class="field">
+                <span class="lbl" style="display:block;margin-bottom:6px;font-size:.88rem;font-weight:600;">Gender</span>
+                <div class="toggle">
+                    <input type="radio" id="g_male" name="gender" value="male" required>
+                    <label for="g_male">👦 Male</label>
+                    <input type="radio" id="g_female" name="gender" value="female">
+                    <label for="g_female">👧 Female</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label class="lbl" for="ethnicity">Race / Ethnicity</label>
+                    <select id="ethnicity" name="ethnicity" required>
+                        <option selected disabled value="">Select group</option>
+                        <option value="group A">Group A</option>
+                        <option value="group B">Group B</option>
+                        <option value="group C">Group C</option>
+                        <option value="group D">Group D</option>
+                        <option value="group E">Group E</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label class="lbl" for="parental_level_of_education">Parental Education</label>
+                    <select id="parental_level_of_education" name="parental_level_of_education" required>
+                        <option selected disabled value="">Select level</option>
+                        <option value="associate's degree">Associate's degree</option>
+                        <option value="bachelor's degree">Bachelor's degree</option>
+                        <option value="high school">High school</option>
+                        <option value="master's degree">Master's degree</option>
+                        <option value="some college">Some college</option>
+                        <option value="some high school">Some high school</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">School details</div>
+
+            <div class="field">
+                <span class="lbl" style="display:block;margin-bottom:6px;font-size:.88rem;font-weight:600;">Lunch type</span>
+                <div class="toggle">
+                    <input type="radio" id="l_std" name="lunch" value="standard" required>
+                    <label for="l_std">🍽️ Standard</label>
+                    <input type="radio" id="l_free" name="lunch" value="free/reduced">
+                    <label for="l_free">🥪 Free / reduced</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <span class="lbl" style="display:block;margin-bottom:6px;font-size:.88rem;font-weight:600;">Test preparation course</span>
+                <div class="toggle">
+                    <input type="radio" id="t_none" name="test_preparation_course" value="none" required>
+                    <label for="t_none">❌ None</label>
+                    <input type="radio" id="t_done" name="test_preparation_course" value="completed">
+                    <label for="t_done">✅ Completed</label>
+                </div>
+            </div>
+
+            <div class="section-title">Scores</div>
+
+            <div class="row">
+                <div class="field">
+                    <label class="lbl" for="reading_score">📖 Reading (0-100)</label>
+                    <input id="reading_score" type="number" name="reading_score"
+                           placeholder="e.g. 72" min="0" max="100" required>
+                </div>
+                <div class="field">
+                    <label class="lbl" for="writing_score">✍️ Writing (0-100)</label>
+                    <input id="writing_score" type="number" name="writing_score"
+                           placeholder="e.g. 74" min="0" max="100" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Predict Maths Score</button>
+        </form>
+
+        {% if results is defined and results is not none and results != "" %}
+        <div class="result">
+            <div class="label">Predicted maths score</div>
+            <div class="score">{{ results }}<small> / 100</small></div>
+            <div class="bar"><span style="width: {{ results }}%"></span></div>
+        </div>
+        {% endif %}
+
+        <a class="link" href="{{ url_for('index') }}">← Back to home</a>
+    </div>
+
+    <script>
+        document.getElementById("predictForm").addEventListener("submit", function () {
+            var b = document.getElementById("submitBtn");
+            if (this.checkValidity()) { b.classList.add("loading"); b.textContent = "Predicting..."; }
+        });
+    </script>
+</body>
+</html>
