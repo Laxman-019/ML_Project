@@ -148,7 +148,6 @@ activemq-data/
 *.sage.py
 
 # Environments
-.artifacts
 .env
 .envrc
 .venv
@@ -221,4 +220,3 @@ __marimo__/
 catboost_info/
 *.tfevents*
 
-artifacts/
